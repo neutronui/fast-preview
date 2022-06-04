@@ -1,0 +1,39 @@
+{
+  "name": "@tac-elements/preview",
+  "packageManager": "yarn@3.2.1",
+  "workspaces": [
+    "dev",
+    "."
+  ],
+  "type": "module",
+  "main": "dist/esm/index.js",
+  "types": "dist/preview.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/preview.d.ts",
+      "default": "./dist/esm/index.js"
+    }
+  },
+  "scripts": {
+    "build:rollup": "rollup -c",
+    "build:tsc": "tsc -p ./tsconfig.json",
+    "build": "yarn build:tsc && yarn build:rollup"
+  },
+  "devDependencies": {
+    "@custom-elements-manifest/analyzer": "^0.5.7",
+    "@custom-elements-manifest/to-markdown": "^0.1.0",
+    "@rollup/plugin-node-resolve": "^13.3.0",
+    "@rollup/plugin-typescript": "^8.3.2",
+    "rollup": "^2.71.1",
+    "rollup-plugin-filesize": "^9.1.2",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-transform-tagged-template": "^0.0.3",
+    "typescript": "^4.7.3",
+    "vite": "^2.9.9"
+  },
+  "dependencies": {
+    "@microsoft/fast-element": "^1.10.2",
+    "@microsoft/fast-foundation": "^2.46.9",
+    "@microsoft/fast-web-utilities": "^6.0.0"
+  }
+}
