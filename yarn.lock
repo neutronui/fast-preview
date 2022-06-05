@@ -169,6 +169,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fluentui/web-components@npm:^2.5.1":
+  version: 2.5.1
+  resolution: "@fluentui/web-components@npm:2.5.1"
+  dependencies:
+    "@microsoft/fast-colors": ^5.1.5
+    "@microsoft/fast-element": ^1.9.0
+    "@microsoft/fast-foundation": ^2.42.0
+    "@microsoft/fast-web-utilities": ^5.3.0
+    tslib: ^1.13.0
+  checksum: be883e88f8db9b877083476535b18a7adbbcd81881082c42a97df21babd5d0e7bac7b0840c80652ac81e68c564f0a54394375a514f34acdc154206080ccccb29
+  languageName: node
+  linkType: hard
+
 "@gar/promisify@npm:^1.0.1, @gar/promisify@npm:^1.1.3":
   version: 1.1.3
   resolution: "@gar/promisify@npm:1.1.3"
@@ -228,14 +241,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@microsoft/fast-element@npm:^1.10.2":
+"@microsoft/fast-colors@npm:^5.1.5":
+  version: 5.3.0
+  resolution: "@microsoft/fast-colors@npm:5.3.0"
+  checksum: 4806f7b08c0f90c6f38b76a697b8676c64e04e1fd83026f4b620a985f4a67ec5447a40dfdb0962aa8114f07f7fd202d49e935320e7316f35947c43b1847860cf
+  languageName: node
+  linkType: hard
+
+"@microsoft/fast-element@npm:^1.10.2, @microsoft/fast-element@npm:^1.9.0":
   version: 1.10.2
   resolution: "@microsoft/fast-element@npm:1.10.2"
   checksum: 11661d8e8eb4a3bb78a5e2473744c5bcc39aa8bb59e198c15a174b59aa84ecd1413dc7ecb590d48ea2ff3289a2d3f1f307f178f1c5246d63f0576eb546cc2ad0
   languageName: node
   linkType: hard
 
-"@microsoft/fast-foundation@npm:^2.46.9":
+"@microsoft/fast-foundation@npm:^2.42.0, @microsoft/fast-foundation@npm:^2.46.9":
   version: 2.46.9
   resolution: "@microsoft/fast-foundation@npm:2.46.9"
   dependencies:
@@ -247,7 +267,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@microsoft/fast-web-utilities@npm:^5.4.1":
+"@microsoft/fast-web-utilities@npm:^5.3.0, @microsoft/fast-web-utilities@npm:^5.4.1":
   version: 5.4.1
   resolution: "@microsoft/fast-web-utilities@npm:5.4.1"
   dependencies:
@@ -446,6 +466,7 @@ __metadata:
     rollup-plugin-filesize: ^9.1.2
     rollup-plugin-terser: ^7.0.2
     rollup-plugin-transform-tagged-template: ^0.0.3
+    tslib: ^2.4.0
     typescript: ^4.7.3
     vite: ^2.9.9
   languageName: unknown
@@ -1204,6 +1225,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "dev@workspace:dev"
   dependencies:
+    "@fluentui/web-components": ^2.5.1
+    "@microsoft/fast-element": ^1.10.2
+    "@microsoft/fast-foundation": ^2.46.9
     "@tac-elements/preview": "workspace:^"
     typescript: ^4.5.4
     vite: ^2.9.9
@@ -3916,6 +3940,13 @@ __metadata:
   version: 1.14.1
   resolution: "tslib@npm:1.14.1"
   checksum: dbe628ef87f66691d5d2959b3e41b9ca0045c3ee3c7c7b906cc1e328b39f199bb1ad9e671c39025bd56122ac57dfbf7385a94843b1cc07c60a4db74795829acd
+  languageName: node
+  linkType: hard
+
+"tslib@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "tslib@npm:2.4.0"
+  checksum: 8c4aa6a3c5a754bf76aefc38026134180c053b7bd2f81338cb5e5ebf96fefa0f417bff221592bf801077f5bf990562f6264fecbc42cd3309b33872cb6fc3b113
   languageName: node
   linkType: hard
 

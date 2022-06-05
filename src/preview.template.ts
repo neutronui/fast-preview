@@ -8,5 +8,7 @@ export const previewTemplate: FoundationElementTemplate<
 	ViewTemplate<Preview>,
 	any
 > = (context, definition) => html`
-	<template></template>
+	<template>
+		<slot></slot>
+	</template>
 `;

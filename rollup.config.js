@@ -42,11 +42,11 @@ export default [
         input: "src/index.ts",
         output: [
             {
-                file: "dist/preview.js",
+                file: "dist/preview-element.js",
                 format: "esm",
             },
             {
-                file: "dist/preview.min.js",
+                file: "dist/preview-element.min.js",
                 format: "esm",
                 plugins: [terser()],
             },
