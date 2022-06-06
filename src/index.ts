@@ -1,12 +1,5 @@
-import { Preview } from './preview.js';
-import { previewTemplate } from './preview.template.js';
+import { Preview } from './preview';
+import { previewTemplate } from './preview.template';
+import { previewStyles } from './preview.styles';
 
-export const previewElement = Preview.compose({
-	baseName: 'preview',
-	template: previewTemplate
-});
-
-export {
-	Preview,
-	previewTemplate
-};
+export { Preview, previewTemplate, previewStyles };
