@@ -1,0 +1,474 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/button/button.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A Button Custom HTML Element. Based largely on the {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button | <button> element }.",
+          "name": "Button",
+          "cssParts": [
+            {
+              "description": "The button element",
+              "name": "control"
+            },
+            {
+              "description": "The element wrapping button content",
+              "name": "content"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Content which can be provided before the button content",
+              "name": "start"
+            },
+            {
+              "description": "Content which can be provided after the button content",
+              "name": "end"
+            },
+            {
+              "description": "The default slot for button content",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "autofocus",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "public",
+              "description": "Determines if the element should receive document focus on page load."
+            },
+            {
+              "kind": "field",
+              "name": "formId",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "public",
+              "description": "The id of a form to associate the element to."
+            },
+            {
+              "kind": "field",
+              "name": "formaction",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "public",
+              "description": "See {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button | <button> element} for more details."
+            },
+            {
+              "kind": "method",
+              "name": "formactionChanged",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "formenctype",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "public",
+              "description": "See {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button | <button> element} for more details."
+            },
+            {
+              "kind": "method",
+              "name": "formenctypeChanged",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "formmethod",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "public",
+              "description": "See {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button | <button> element} for more details."
+            },
+            {
+              "kind": "method",
+              "name": "formmethodChanged",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "formnovalidate",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "public",
+              "description": "See {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button | <button> element} for more details."
+            },
+            {
+              "kind": "method",
+              "name": "formnovalidateChanged",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "formtarget",
+              "type": {
+                "text": "\"_self\" | \"_blank\" | \"_parent\" | \"_top\""
+              },
+              "privacy": "public",
+              "description": "See {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button | <button> element} for more details."
+            },
+            {
+              "kind": "method",
+              "name": "formtargetChanged",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "type",
+              "type": {
+                "text": "\"submit\" | \"reset\" | \"button\""
+              },
+              "privacy": "public",
+              "description": "The button type."
+            },
+            {
+              "kind": "method",
+              "name": "typeChanged",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "previous",
+                  "type": {
+                    "text": "\"submit\" | \"reset\" | \"button\" | void"
+                  }
+                },
+                {
+                  "name": "next",
+                  "type": {
+                    "text": "\"submit\" | \"reset\" | \"button\""
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "defaultSlottedContent",
+              "type": {
+                "text": "HTMLElement[]"
+              },
+              "privacy": "public",
+              "description": "\nDefault slotted content"
+            },
+            {
+              "kind": "field",
+              "name": "handleSubmission",
+              "privacy": "private",
+              "description": "Submits the parent form"
+            },
+            {
+              "kind": "field",
+              "name": "handleFormReset",
+              "privacy": "private",
+              "description": "Resets the parent form"
+            },
+            {
+              "kind": "field",
+              "name": "control",
+              "type": {
+                "text": "HTMLButtonElement"
+              },
+              "privacy": "public"
+            },
+            {
+              "kind": "field",
+              "name": "handleUnsupportedDelegatesFocus",
+              "privacy": "private",
+              "description": "Overrides the focus call for where delegatesFocus is unsupported.\nThis check works for Chrome, Edge Chromium, FireFox, and Safari\nRelevant PR on the Firefox browser: https://phabricator.services.mozilla.com/D123858"
+            },
+            {
+              "kind": "field",
+              "name": "proxy",
+              "inheritedFrom": {
+                "name": "FormAssociatedButton",
+                "module": "src/button/button.form-associated.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "_presentation",
+              "type": {
+                "text": "ComponentPresentation | null | undefined"
+              },
+              "privacy": "private",
+              "default": "void 0",
+              "inheritedFrom": {
+                "name": "FoundationElement",
+                "module": "src/foundation-element/foundation-element.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "$presentation",
+              "type": {
+                "text": "ComponentPresentation | null"
+              },
+              "privacy": "public",
+              "description": "A property which resolves the ComponentPresentation instance\nfor the current component.",
+              "inheritedFrom": {
+                "name": "FoundationElement",
+                "module": "src/foundation-element/foundation-element.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "template",
+              "type": {
+                "text": "ElementViewTemplate | void | null"
+              },
+              "privacy": "public",
+              "description": "Sets the template of the element instance. When undefined,\nthe element will attempt to resolve the template from\nthe associated presentation or custom element definition.",
+              "inheritedFrom": {
+                "name": "FoundationElement",
+                "module": "src/foundation-element/foundation-element.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "templateChanged",
+              "privacy": "protected",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "inheritedFrom": {
+                "name": "FoundationElement",
+                "module": "src/foundation-element/foundation-element.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "styles",
+              "type": {
+                "text": "ElementStyles | void | null"
+              },
+              "privacy": "public",
+              "description": "Sets the default styles for the element instance. When undefined,\nthe element will attempt to resolve default styles from\nthe associated presentation or custom element definition.",
+              "inheritedFrom": {
+                "name": "FoundationElement",
+                "module": "src/foundation-element/foundation-element.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "stylesChanged",
+              "privacy": "protected",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "inheritedFrom": {
+                "name": "FoundationElement",
+                "module": "src/foundation-element/foundation-element.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "compose",
+              "privacy": "public",
+              "static": true,
+              "return": {
+                "type": {
+                  "text": "(\n        overrideDefinition?: OverrideFoundationElementDefinition<T>\n    ) => FoundationElementRegistry<T, K>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "this",
+                  "type": {
+                    "text": "K"
+                  }
+                },
+                {
+                  "name": "elementDefinition",
+                  "type": {
+                    "text": "T"
+                  },
+                  "description": "The definition of the element to create the registry\nfunction for."
+                }
+              ],
+              "description": "Defines an element registry function with a set of element definition defaults.",
+              "inheritedFrom": {
+                "name": "FoundationElement",
+                "module": "src/foundation-element/foundation-element.ts"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Determines if the element should receive document focus on page load.",
+              "fieldName": "autofocus"
+            },
+            {
+              "name": "form",
+              "type": {
+                "text": "string"
+              },
+              "description": "The id of a form to associate the element to.",
+              "fieldName": "formId"
+            },
+            {
+              "name": "formaction",
+              "type": {
+                "text": "string"
+              },
+              "description": "See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button | <button> element for more details.",
+              "fieldName": "formaction"
+            },
+            {
+              "name": "formenctype",
+              "type": {
+                "text": "string"
+              },
+              "description": "See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button | <button> element for more details.",
+              "fieldName": "formenctype"
+            },
+            {
+              "name": "formmethod",
+              "type": {
+                "text": "string"
+              },
+              "description": "See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button | <button> element for more details.",
+              "fieldName": "formmethod"
+            },
+            {
+              "type": {
+                "text": "boolean"
+              },
+              "description": "See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button | <button> element for more details.",
+              "fieldName": "formnovalidate"
+            },
+            {
+              "name": "formtarget",
+              "type": {
+                "text": "\"_self\" | \"_blank\" | \"_parent\" | \"_top\""
+              },
+              "description": "See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button | <button> element for more details.",
+              "fieldName": "formtarget"
+            },
+            {
+              "name": "type",
+              "type": {
+                "text": "\"submit\" | \"reset\" | \"button\""
+              },
+              "description": "The button type.",
+              "fieldName": "type"
+            }
+          ],
+          "superclass": {
+            "name": "FormAssociatedButton",
+            "module": "/src/button/button.form-associated.js"
+          },
+          "tagName": "fluent-button",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "Includes ARIA states and properties relating to the ARIA button role",
+          "name": "DelegatesARIAButton",
+          "members": [
+            {
+              "kind": "field",
+              "name": "ariaExpanded",
+              "type": {
+                "text": "\"true\" | \"false\" | string | null"
+              },
+              "privacy": "public",
+              "description": "See {@link https://www.w3.org/WAI/PF/aria/roles#button} for more information"
+            },
+            {
+              "kind": "field",
+              "name": "ariaPressed",
+              "type": {
+                "text": "\"true\" | \"false\" | \"mixed\" | string | null"
+              },
+              "privacy": "public",
+              "description": "See {@link https://www.w3.org/WAI/PF/aria/roles#button} for more information"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "aria-expanded",
+              "type": {
+                "text": "\"true\" | \"false\" | string | null"
+              },
+              "description": "See https://www.w3.org/WAI/PF/aria/roles#button for more information",
+              "fieldName": "ariaExpanded"
+            },
+            {
+              "name": "aria-pressed",
+              "type": {
+                "text": "\"true\" | \"false\" | \"mixed\" | string | null"
+              },
+              "description": "See https://www.w3.org/WAI/PF/aria/roles#button for more information",
+              "fieldName": "ariaPressed"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "Button",
+          "declaration": {
+            "name": "Button",
+            "module": "src/button/button.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DelegatesARIAButton",
+          "declaration": {
+            "name": "DelegatesARIAButton",
+            "module": "src/button/button.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

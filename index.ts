@@ -7,6 +7,8 @@ import { defaultExecutionContext, html } from '@microsoft/fast-element';
 import { ComponentPreview } from './src/component-preview';
 import { createElementView } from './src/utilities/create-element-view';
 
+import manifest from './test-manifest.json';
+
 provideFluentDesignSystem().register(allComponents);
 
 ComponentPreview;

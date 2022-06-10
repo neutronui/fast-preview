@@ -44,12 +44,6 @@ export const componentPreviewTemplate: ViewTemplate<ComponentPreview> = html`
 			</fluent-switch>
 		</fluent-toolbar>
 
-		<fluent-tooltip anchor="preview-luminance" position="bottom-start">
-			Toggle ${(x) => x.title ?? ''} preview luminance
-		</fluent-tooltip>
-		<fluent-tooltip anchor="preview-direction" position="bottom-start">
-			Toggle ${(x) => x.title ?? ''} preview reading direction
-		</fluent-tooltip>
 			
 		<fluent-layout-container
 			class="preview-panel"

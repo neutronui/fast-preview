@@ -84,6 +84,15 @@ export class ComponentPreview extends FASTElement {
   public directionSwitch!: Switch;
 
   /**
+   * Public API
+   */
+  @observable
+  public elementData!: CustomElement;
+  public elementDataChanged(): void {
+    console.log(this.elementData);
+  }
+
+  /**
    * Event Handlers
    */
   public onPreviewLuminanceChange = (): boolean | void => {
