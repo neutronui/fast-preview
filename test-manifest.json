@@ -342,62 +342,14 @@
                 "text": "boolean"
               },
               "description": "Determines if the element should receive document focus on page load.",
-              "fieldName": "autofocus"
+              "fieldName": "disabled"
             },
             {
-              "name": "form",
               "type": {
                 "text": "string"
               },
-              "description": "The id of a form to associate the element to.",
-              "fieldName": "formId"
-            },
-            {
-              "name": "formaction",
-              "type": {
-                "text": "string"
-              },
-              "description": "See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button | <button> element for more details.",
-              "fieldName": "formaction"
-            },
-            {
-              "name": "formenctype",
-              "type": {
-                "text": "string"
-              },
-              "description": "See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button | <button> element for more details.",
-              "fieldName": "formenctype"
-            },
-            {
-              "name": "formmethod",
-              "type": {
-                "text": "string"
-              },
-              "description": "See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button | <button> element for more details.",
-              "fieldName": "formmethod"
-            },
-            {
-              "type": {
-                "text": "boolean"
-              },
-              "description": "See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button | <button> element for more details.",
-              "fieldName": "formnovalidate"
-            },
-            {
-              "name": "formtarget",
-              "type": {
-                "text": "\"_self\" | \"_blank\" | \"_parent\" | \"_top\""
-              },
-              "description": "See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button | <button> element for more details.",
-              "fieldName": "formtarget"
-            },
-            {
-              "name": "type",
-              "type": {
-                "text": "\"submit\" | \"reset\" | \"button\""
-              },
-              "description": "The button type.",
-              "fieldName": "type"
+              "description": "Determines if the element should receive document focus on page load.",
+              "fieldName": "appearance"
             }
           ],
           "superclass": {

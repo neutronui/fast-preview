@@ -6,6 +6,10 @@ import {
   DOM,
   ViewTemplate,
   html,
+  defaultExecutionContext,
+  TemplateValue,
+  Observable,
+  HTMLView,
 } from '@microsoft/fast-element';
 import {
   baseLayerLuminance,
@@ -27,6 +31,8 @@ import type {
   CssCustomProperty,
   Event,
 } from 'custom-elements-manifest/schema';
+import { createElementView } from './utilities/create-element-view';
+import { uniqueId } from '@microsoft/fast-web-utilities/dist/strings';
 
 export type CustomAttribute = Attribute & {
   options?: Array<any>;
@@ -90,6 +96,91 @@ export class ComponentPreview extends FASTElement {
   public elementData!: CustomElement;
   public elementDataChanged(): void {
     console.log(this.elementData);
+    this.reset();
+
+    this.constructPreview();
+  }
+
+  /**
+   * Private API
+   */
+  private reset(): void {}
+
+  @observable
+  private previewData: Record<string, string | TemplateValue<any, any>> = {};
+
+  private previewBindings: Record<string, string | TemplateValue<any, any>> =
+    {};
+
+  @observable
+  private previewTemplate!: ViewTemplate;
+  private previewTemplateChanged(): void {}
+
+  private constructPreview(): void {
+    const tagName = this.elementData.name!;
+
+    this.previewBindings.id = uniqueId(`${tagName}-`);
+
+    this.elementData.attributes?.forEach((attribute: Attribute) => {
+      const fieldName: string = attribute.fieldName!;
+      this.previewData.type = attribute.type?.text!;
+
+      if (attribute.type?.text === 'boolean') {
+        this.previewBindings[`?${fieldName}`] = (x) => x[fieldName];
+        this.previewData[`_${fieldName}`] = attribute.default ?? false;
+      } else {
+        this.previewBindings[`:${fieldName}`] = (x) => x[fieldName];
+        this.previewData[`_${fieldName}`] = attribute.default!;
+      }
+
+      Object.defineProperty(this.previewData, fieldName, {
+        get() {
+          Observable.track(this, fieldName);
+          return this[`_${fieldName}`];
+        },
+        set(value: any) {
+          this[`_${fieldName}`] = value;
+          Observable.notify(this, fieldName);
+        },
+      });
+
+      let controlTag = 'fluent-text-field';
+      let controlBindings: Record<string, string | TemplateValue<any, any>> = {
+        '@input': (x, c) =>
+          (this.previewData[fieldName] = (c.event.target as any).checked),
+      };
+      switch (attribute.type?.text) {
+        case 'boolean':
+          controlTag = 'fluent-checkbox';
+          controlBindings = {
+            '@change': (x, c) =>
+              (this.previewData[fieldName] = (c.event.target as any).checked),
+          };
+          break;
+      }
+
+      const control = createElementView(controlTag, {
+        content: fieldName,
+        bindings: controlBindings,
+      });
+      const view = control.create();
+      view.bind(this.previewData, defaultExecutionContext);
+
+      DOM.queueUpdate(() => {
+        view.appendTo(this.attributesPanel);
+      });
+    });
+
+    this.previewTemplate = createElementView(tagName, {
+      content: tagName,
+      bindings: this.previewBindings,
+    });
+    const view = this.previewTemplate.create();
+    view.bind(this.previewData, defaultExecutionContext);
+
+    DOM.queueUpdate(() => {
+      view.appendTo(this.previewPanel);
+    });
   }
 
   /**

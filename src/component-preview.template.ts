@@ -45,11 +45,11 @@ export const componentPreviewTemplate: ViewTemplate<ComponentPreview> = html`
 		</fluent-toolbar>
 
 			
-		<fluent-layout-container
+		<fluent-card
 			class="preview-panel"
 			part="preview-panel"
 			${ref('previewPanel')}
-		></fluent-layout-container>
+		></fluent-card>
 
 		${when(
       (x) =>
