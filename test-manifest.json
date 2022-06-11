@@ -346,8 +346,9 @@
             },
             {
               "type": {
-                "text": "string"
+                "text": "accent | stealth | outline | lightweight | neutral"
               },
+              "default": "neutral",
               "description": "The appearance.",
               "fieldName": "appearance"
             }

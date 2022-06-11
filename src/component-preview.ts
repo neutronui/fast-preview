@@ -10,6 +10,7 @@ import {
   TemplateValue,
   Observable,
   HTMLView,
+  repeat,
 } from '@microsoft/fast-element';
 import {
   baseLayerLuminance,
@@ -152,12 +153,22 @@ export class ComponentPreview extends FASTElement {
       });
 
       let controlTag = 'fluent-text-field';
+      let controlContent = null;
       let controlBindings: Record<string, string | TemplateValue<any, any>> = {
         '@input': (x, c) =>
           (this.previewData[fieldName] =
             (c.event.target as any)?.value ?? attribute.default ?? ''),
       };
-      switch (attribute.type?.text) {
+
+      let type = 'text';
+      const parsedType = attribute.type.text.split(/[\s][^\w+][\s]/g);
+      if (parsedType.length > 1) {
+        type = 'select';
+      } else {
+        type = attribute.type.text;
+      }
+
+      switch (type) {
         case 'boolean':
           controlTag = 'fluent-checkbox';
           controlBindings = {
@@ -165,9 +176,25 @@ export class ComponentPreview extends FASTElement {
               (this.previewData[fieldName] = (c.event.target as any).checked),
           };
           break;
+
+        case 'select':
+          controlTag = 'fluent-select';
+          controlContent = html`
+            ${repeat(
+              (x) => parsedType,
+              html`<fluent-option value="${(x) => x}">${(x) =>
+                x}</fluent-option>`
+            )}
+          `;
+          controlBindings = {
+            ':value': attribute.default,
+            '@change': (x, c) =>
+              (this.previewData[fieldName] = (c.event.target as any).value),
+          };
       }
 
       const control = createElementView(controlTag, {
+        content: controlContent,
         bindings: controlBindings,
       });
       const view = control.create();

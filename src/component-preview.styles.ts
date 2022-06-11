@@ -40,6 +40,7 @@ export const componentPreviewStyles = css`
     height: fit-content;
     background-color: ${neutralLayer2};
     color: ${neutralForegroundRest};
+		border-color: transparent;
     border-radius: 0;
     padding: 2rem;
     contain: content;
