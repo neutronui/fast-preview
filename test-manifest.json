@@ -341,14 +341,14 @@
               "type": {
                 "text": "boolean"
               },
-              "description": "Determines if the element should receive document focus on page load.",
+              "description": "Disabled state.",
               "fieldName": "disabled"
             },
             {
               "type": {
                 "text": "string"
               },
-              "description": "Determines if the element should receive document focus on page load.",
+              "description": "The appearance.",
               "fieldName": "appearance"
             }
           ],
