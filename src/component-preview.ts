@@ -13,6 +13,7 @@ import {
 } from '@microsoft/fast-element';
 import {
   baseLayerLuminance,
+  DataGridCell,
   direction,
   StandardLuminance,
 } from '@fluentui/web-components';
@@ -23,7 +24,12 @@ import { componentPreviewTemplate } from './component-preview.template';
 /**
  * Type Imports
  */
-import type { Switch } from '@microsoft/fast-foundation';
+import type {
+  Switch,
+  DataGrid,
+  DataGridCellTypes,
+  ColumnDefinition,
+} from '@microsoft/fast-foundation';
 import type {
   CustomElement,
   Attribute,
@@ -33,7 +39,6 @@ import type {
 } from 'custom-elements-manifest/schema';
 import { createElementView } from './utilities/create-element-view';
 import { uniqueId } from '@microsoft/fast-web-utilities/dist/strings';
-import { attributesPanelView } from './panels/attributes';
 
 export type CustomAttribute = Attribute & {
   options?: Array<any>;
@@ -119,6 +124,7 @@ export class ComponentPreview extends FASTElement {
 
   private constructPreview(): void {
     const tagName = this.elementData.name!;
+    const rowsData = [];
 
     this.previewBindings.id = uniqueId(`${tagName}-`);
 
@@ -145,33 +151,71 @@ export class ComponentPreview extends FASTElement {
         },
       });
 
-      // let controlTag = 'fluent-text-field';
-      // let controlBindings: Record<string, string | TemplateValue<any, any>> = {
-      //   '@input': (x, c) =>
-      //     (this.previewData[fieldName] =
-      //       (c.event.target as any).value ?? attribute.default),
-      // };
-      // switch (attribute.type?.text) {
-      //   case 'boolean':
-      //     controlTag = 'fluent-checkbox';
-      //     controlBindings = {
-      //       '@change': (x, c) =>
-      //         (this.previewData[fieldName] = (c.event.target as any).checked),
-      //     };
-      //     break;
-      // }
+      let controlTag = 'fluent-text-field';
+      let controlBindings: Record<string, string | TemplateValue<any, any>> = {
+        '@input': (x, c) =>
+          (this.previewData[fieldName] =
+            (c.event.target as any)?.value ?? attribute.default ?? ''),
+      };
+      switch (attribute.type?.text) {
+        case 'boolean':
+          controlTag = 'fluent-checkbox';
+          controlBindings = {
+            '@change': (x, c) =>
+              (this.previewData[fieldName] = (c.event.target as any).checked),
+          };
+          break;
+      }
 
-      // const control = createElementView(controlTag, {
-      //   content: fieldName,
-      //   bindings: controlBindings,
-      // });
-      // const view = control.create();
-      // view.bind(this.previewData, defaultExecutionContext);
+      const control = createElementView(controlTag, {
+        bindings: controlBindings,
+      });
+      const view = control.create();
+      view.bind(this.previewData, defaultExecutionContext);
+
+      rowsData.push({
+        attribute: attribute.name ?? attribute.fieldName,
+        description: attribute.description,
+        control,
+      });
 
       // DOM.queueUpdate(() => {
       //   view.appendTo(this.attributesPanel);
       // });
     });
+
+    const columnDefinitions: ColumnDefinition[] = [
+      {
+        columnDataKey: 'attribute',
+        title: 'Attribute',
+      },
+      {
+        columnDataKey: 'description',
+        title: 'Description',
+        cellTemplate: html<DataGridCell>`
+          <template>
+            <p style="white-space: normal; margin: 0;">
+              ${(x) => x.rowData[x.columnDefinition.columnDataKey]}
+            </p>
+          </template>
+        `,
+      },
+      {
+        columnDataKey: 'control',
+        title: null,
+        cellInternalFocusQueue: true,
+        cellFocusTargetCallback: (cell: DataGridCell) =>
+          cell.children[0] as HTMLElement,
+        cellTemplate: html<DataGridCell>`
+          <template
+            style="display: flex; align-items: center;"
+            @cell-focused="${(x, c) => (x.children[0] as HTMLElement).focus()}"
+          >
+            ${(x) => x.rowData[x.columnDefinition.columnDataKey]}
+          </template>
+        `,
+      },
+    ];
 
     this.previewTemplate = createElementView(tagName, {
       content: tagName,
@@ -182,14 +226,9 @@ export class ComponentPreview extends FASTElement {
 
     DOM.queueUpdate(() => {
       view.appendTo(this.previewPanel);
-      this.createAttributesPanel();
+      (this.attributesPanel as DataGrid).columnDefinitions = columnDefinitions;
+      (this.attributesPanel as DataGrid).rowsData = rowsData;
     });
-  }
-
-  private createAttributesPanel() {
-    const view = attributesPanelView.create();
-    view.bind(this.previewData, defaultExecutionContext);
-    view.appendTo(this.attributesPanel);
   }
 
   /**

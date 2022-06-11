@@ -52,6 +52,10 @@ export const componentPreviewStyles = css`
 		border-bottom-left-radius: calc(${layerCornerRadius} * 1px);
     border-bottom-right-radius: calc(${layerCornerRadius} * 1px);
 	}
+	
+	.preview-panel {
+		
+	}
 
 	.attributes-panel {
 		z-index: 2;

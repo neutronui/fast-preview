@@ -72,7 +72,8 @@ export const componentPreviewTemplate: ViewTemplate<ComponentPreview> = html`
 							?hidden="${(x) => !x.enableAttributesPanel}"
 						>
 							<fluent-data-grid
-								grid-template-columns="1fr 1fr 1fr"
+								generate-header="sticky"
+								grid-template-columns="1fr 2fr 2fr"
 								class="attributes-panel"
 								part="attributes-panel"
 								${ref('attributesPanel')}
