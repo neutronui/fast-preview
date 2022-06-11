@@ -25,7 +25,7 @@ export const componentPreviewStyles = css`
 
 	.toolbar {
 		width: 100%;
-		background-color: ${neutralLayer3};
+		background-color: ${neutralLayer4};
 		border-top-left-radius: calc(${layerCornerRadius} * 1px);
     border-top-right-radius: calc(${layerCornerRadius} * 1px);
 	}
@@ -43,6 +43,7 @@ export const componentPreviewStyles = css`
     border-radius: 0;
     padding: 2rem;
     contain: content;
+		box-shadow: unset;
 	}
 
 	.props-panel {

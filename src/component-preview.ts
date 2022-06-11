@@ -33,6 +33,7 @@ import type {
 } from 'custom-elements-manifest/schema';
 import { createElementView } from './utilities/create-element-view';
 import { uniqueId } from '@microsoft/fast-web-utilities/dist/strings';
+import { attributesPanelView } from './panels/attributes';
 
 export type CustomAttribute = Attribute & {
   options?: Array<any>;
@@ -144,31 +145,32 @@ export class ComponentPreview extends FASTElement {
         },
       });
 
-      let controlTag = 'fluent-text-field';
-      let controlBindings: Record<string, string | TemplateValue<any, any>> = {
-        '@input': (x, c) =>
-          (this.previewData[fieldName] = (c.event.target as any).checked),
-      };
-      switch (attribute.type?.text) {
-        case 'boolean':
-          controlTag = 'fluent-checkbox';
-          controlBindings = {
-            '@change': (x, c) =>
-              (this.previewData[fieldName] = (c.event.target as any).checked),
-          };
-          break;
-      }
+      // let controlTag = 'fluent-text-field';
+      // let controlBindings: Record<string, string | TemplateValue<any, any>> = {
+      //   '@input': (x, c) =>
+      //     (this.previewData[fieldName] =
+      //       (c.event.target as any).value ?? attribute.default),
+      // };
+      // switch (attribute.type?.text) {
+      //   case 'boolean':
+      //     controlTag = 'fluent-checkbox';
+      //     controlBindings = {
+      //       '@change': (x, c) =>
+      //         (this.previewData[fieldName] = (c.event.target as any).checked),
+      //     };
+      //     break;
+      // }
 
-      const control = createElementView(controlTag, {
-        content: fieldName,
-        bindings: controlBindings,
-      });
-      const view = control.create();
-      view.bind(this.previewData, defaultExecutionContext);
+      // const control = createElementView(controlTag, {
+      //   content: fieldName,
+      //   bindings: controlBindings,
+      // });
+      // const view = control.create();
+      // view.bind(this.previewData, defaultExecutionContext);
 
-      DOM.queueUpdate(() => {
-        view.appendTo(this.attributesPanel);
-      });
+      // DOM.queueUpdate(() => {
+      //   view.appendTo(this.attributesPanel);
+      // });
     });
 
     this.previewTemplate = createElementView(tagName, {
@@ -180,7 +182,14 @@ export class ComponentPreview extends FASTElement {
 
     DOM.queueUpdate(() => {
       view.appendTo(this.previewPanel);
+      this.createAttributesPanel();
     });
+  }
+
+  private createAttributesPanel() {
+    const view = attributesPanelView.create();
+    view.bind(this.previewData, defaultExecutionContext);
+    view.appendTo(this.attributesPanel);
   }
 
   /**
