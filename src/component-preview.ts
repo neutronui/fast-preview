@@ -187,7 +187,7 @@ export class ComponentPreview extends FASTElement {
             )}
           `;
           controlBindings = {
-            ':value': attribute.default,
+            value: attribute.default,
             '@change': (x, c) =>
               (this.previewData[fieldName] = (c.event.target as any).value),
           };
@@ -229,13 +229,13 @@ export class ComponentPreview extends FASTElement {
       },
       {
         columnDataKey: 'control',
-        title: null,
-        cellInternalFocusQueue: true,
-        cellFocusTargetCallback: (cell: DataGridCell) =>
-          cell.children[0] as HTMLElement,
+        title: 'Value',
+        // cellInternalFocusQueue: true,
+        // cellFocusTargetCallback: (cell: DataGridCell) =>
+        //   cell.children[0] as HTMLElement,
         cellTemplate: html<DataGridCell>`
           <template
-            style="display: flex; align-items: center;"
+            style="display: contents;"
             @cell-focused="${(x, c) => (x.children[0] as HTMLElement).focus()}"
           >
             ${(x) => x.rowData[x.columnDefinition.columnDataKey]}
