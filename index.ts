@@ -24,6 +24,7 @@ const componentPreviewData = {
   elementData: getElementData(manifest, 'Button'),
   enableAttributesPanel: true,
 };
+
 const componentPreview = createElementView('component-preview', {
   bindings: {
     id: 'preview',

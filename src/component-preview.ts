@@ -40,6 +40,10 @@ import type {
 } from 'custom-elements-manifest/schema';
 import { createElementView } from './utilities/create-element-view';
 import { uniqueId } from '@microsoft/fast-web-utilities/dist/strings';
+import {
+  constructAttributePanel,
+  constructAttributesPanel,
+} from './panels/attributes';
 
 export type CustomAttribute = Attribute & {
   options?: Array<any>;
@@ -125,9 +129,6 @@ export class ComponentPreview extends FASTElement {
 
   private constructPreview(): void {
     const tagName = this.elementData.name!;
-    const rowsData = [];
-
-    this.previewBindings.id = uniqueId(`${tagName}-`);
 
     this.elementData.attributes?.forEach((attribute: Attribute) => {
       const fieldName: string = attribute.fieldName!;
@@ -151,98 +152,7 @@ export class ComponentPreview extends FASTElement {
           Observable.notify(this, fieldName);
         },
       });
-
-      let controlTag = 'fluent-text-field';
-      let controlContent = null;
-      let controlBindings: Record<string, string | TemplateValue<any, any>> = {
-        '@input': (x, c) =>
-          (this.previewData[fieldName] =
-            (c.event.target as any)?.value ?? attribute.default ?? ''),
-      };
-
-      let type = 'text';
-      const parsedType = attribute.type.text.split(/[\s][^\w+][\s]/g);
-      if (parsedType.length > 1) {
-        type = 'select';
-      } else {
-        type = attribute.type.text;
-      }
-
-      switch (type) {
-        case 'boolean':
-          controlTag = 'fluent-checkbox';
-          controlBindings = {
-            '@change': (x, c) =>
-              (this.previewData[fieldName] = (c.event.target as any).checked),
-          };
-          break;
-
-        case 'select':
-          controlTag = 'fluent-select';
-          controlContent = html`
-            ${repeat(
-              (x) => parsedType,
-              html`<fluent-option value="${(x) => x}">${(x) =>
-                x}</fluent-option>`
-            )}
-          `;
-          controlBindings = {
-            value: attribute.default,
-            '@change': (x, c) =>
-              (this.previewData[fieldName] = (c.event.target as any).value),
-          };
-      }
-
-      const control = createElementView(controlTag, {
-        content: controlContent,
-        bindings: controlBindings,
-      });
-      const view = control.create();
-      view.bind(this.previewData, defaultExecutionContext);
-
-      rowsData.push({
-        attribute: attribute.name ?? attribute.fieldName,
-        description: attribute.description,
-        control,
-      });
-
-      // DOM.queueUpdate(() => {
-      //   view.appendTo(this.attributesPanel);
-      // });
     });
-
-    const columnDefinitions: ColumnDefinition[] = [
-      {
-        columnDataKey: 'attribute',
-        title: 'Attribute',
-      },
-      {
-        columnDataKey: 'description',
-        title: 'Description',
-        cellTemplate: html<DataGridCell>`
-          <template>
-            <p style="white-space: normal; margin: 0;">
-              ${(x) => x.rowData[x.columnDefinition.columnDataKey]}
-            </p>
-          </template>
-        `,
-      },
-      {
-        columnDataKey: 'control',
-        title: 'Value',
-        // cellInternalFocusQueue: true,
-        // cellFocusTargetCallback: (cell: DataGridCell) =>
-        //   cell.children[0] as HTMLElement,
-        cellTemplate: html<DataGridCell>`
-          <template
-            style="display: contents;"
-            @cell-focused="${(x, c) => (x.children[0] as HTMLElement).focus()}"
-          >
-            ${(x) => x.rowData[x.columnDefinition.columnDataKey]}
-          </template>
-        `,
-      },
-    ];
 
     this.previewTemplate = createElementView(tagName, {
       content: tagName,
@@ -253,8 +163,12 @@ export class ComponentPreview extends FASTElement {
 
     DOM.queueUpdate(() => {
       view.appendTo(this.previewPanel);
-      (this.attributesPanel as DataGrid).columnDefinitions = columnDefinitions;
-      (this.attributesPanel as DataGrid).rowsData = rowsData;
+      constructAttributesPanel(
+        this.attributesPanel as DataGrid,
+        this.elementData.attributes,
+        this.previewData,
+        this.previewBindings
+      );
     });
   }
 
