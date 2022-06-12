@@ -21,47 +21,13 @@ export function constructAttributesPanel(
   previewElementData: Record<string, string | TemplateValue<any, any>>,
   previewElementBindings: Record<string, string | TemplateValue<any, any>>
 ): void {
-  const rowsData = [];
-
-  const columnDefinitions: ColumnDefinition[] = [
-    {
-      columnDataKey: 'attribute',
-      title: 'Attribute',
-    },
-    {
-      columnDataKey: 'description',
-      title: 'Description',
-      cellTemplate: html<DataGridCell>`
-        <template>
-          <p style="white-space: normal; margin: 0;">
-            ${(x) => x.rowData[x.columnDefinition.columnDataKey]}
-          </p>
-        </template>
-      `,
-    },
-    {
-      columnDataKey: 'control',
-      title: 'Value',
-      // cellInternalFocusQueue: true,
-      // cellFocusTargetCallback: (cell: DataGridCell) =>
-      //   cell.children[0] as HTMLElement,
-      cellTemplate: html<DataGridCell>`
-        <template
-          style="display: contents;"
-          @cell-focused="${(x, c) => (x.children[0] as HTMLElement).focus()}"
-        >
-          ${(x) => x.rowData[x.columnDefinition.columnDataKey]}
-        </template>
-      `,
-    },
-  ];
-
   attributes?.forEach((attribute: Attribute) => {
     const fieldName: string = attribute.fieldName!;
 
     let controlTag = 'fluent-text-field';
     let controlContent = null;
     let controlBindings: Record<string, string | TemplateValue<any, any>> = {
+      class: 'value',
       '@input': (x, c) =>
         (previewElementData[fieldName] =
           (c.event.target as any)?.value ?? attribute.default ?? ''),
@@ -79,6 +45,7 @@ export function constructAttributesPanel(
       case 'boolean':
         controlTag = 'fluent-checkbox';
         controlBindings = {
+          class: 'value',
           '@change': (x, c) =>
             (previewElementData[fieldName] = (c.event.target as any).checked),
         };
@@ -94,6 +61,7 @@ export function constructAttributesPanel(
         `;
         controlBindings = {
           value: attribute.default,
+          class: 'value',
           '@change': (x, c) =>
             (previewElementData[fieldName] = (c.event.target as any).value),
         };
@@ -103,16 +71,13 @@ export function constructAttributesPanel(
       content: controlContent,
       bindings: controlBindings,
     });
-    const view = control.create();
-    view.bind(previewElementData, defaultExecutionContext);
 
-    rowsData.push({
-      attribute: attribute.name ?? attribute.fieldName,
-      description: attribute.description,
-      control,
-    });
+    const view = html`
+      <b class="name">${attribute.name ?? attribute.fieldName}</b>
+      <p class="description">${attribute.description}</p>
+    `.create();
+
+    view.appendTo(target);
+    control.render(previewElementData, target);
   });
-
-  target.columnDefinitions = columnDefinitions;
-  target.rowsData = rowsData;
 }

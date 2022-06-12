@@ -59,6 +59,24 @@ export const componentPreviewStyles = css`
 	}
 
 	.attributes-panel {
-		z-index: 2;
+		z-index: 1;
+		display: grid;
+		grid-template-columns: 1fr 2fr 1fr;
+		gap: 1rem;
+		padding-inline-start: 3rem;
+	}
+
+	.attributes-panel > .name {
+		grid-column: 1;
+	}
+
+	.attributes-panel > .description {
+		grid-column: 2;
+		white-space: normal;
+		margin: 0;
+	}
+
+	.attributes-panel > .value {
+		grid-column: 3;
 	}
 `;

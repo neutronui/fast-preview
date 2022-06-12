@@ -71,13 +71,11 @@ export const componentPreviewTemplate: ViewTemplate<ComponentPreview> = html`
 						<fluent-tab-panel
 							?hidden="${(x) => !x.enableAttributesPanel}"
 						>
-							<fluent-data-grid
-								generate-header="none"
-								grid-template-columns="1fr 2fr 2fr"
+							<div
 								class="attributes-panel"
 								part="attributes-panel"
 								${ref('attributesPanel')}
-							></fluent-data-grid>
+							></div>
 						</fluent-tab-panel>
 					</fluent-tabs>
 				</div>
