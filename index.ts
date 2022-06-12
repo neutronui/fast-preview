@@ -23,6 +23,7 @@ const app = document.getElementById('app')!;
 const componentPreviewData = {
   elementData: getElementData(manifest, 'Button'),
   enableAttributesPanel: true,
+  enableSlotsPanel: true,
 };
 
 const componentPreview = createElementView('component-preview', {
@@ -30,6 +31,7 @@ const componentPreview = createElementView('component-preview', {
     id: 'preview',
     ':elementData': (x) => x.elementData,
     '?attributes-panel': (x) => x.enableAttributesPanel,
+    '?slots-panel': (x) => x.enableSlotsPanel,
   },
 }).create();
 

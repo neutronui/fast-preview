@@ -16,17 +16,20 @@ import {
 } from '@microsoft/fast-foundation';
 
 export function constructAttributesPanel(
-  target: DataGrid,
+  target: HTMLElement,
   attributes: Array<Attribute>,
-  previewElementData: Record<string, string | TemplateValue<any, any>>,
-  previewElementBindings: Record<string, string | TemplateValue<any, any>>
+  previewElementData: Record<string, string | TemplateValue<any, any>>
 ): void {
   attributes?.forEach((attribute: Attribute) => {
     const fieldName: string = attribute.fieldName!;
+    const fieldId: string = uniqueId(`${fieldName}-`);
+    const labelId: string = uniqueId(`${fieldName}-label-`);
 
     let controlTag = 'fluent-text-field';
     let controlContent = null;
     let controlBindings: Record<string, string | TemplateValue<any, any>> = {
+      id: fieldId,
+      'aria-labelledby': labelId,
       class: 'value',
       '@input': (x, c) =>
         (previewElementData[fieldName] =
@@ -45,6 +48,8 @@ export function constructAttributesPanel(
       case 'boolean':
         controlTag = 'fluent-checkbox';
         controlBindings = {
+          id: fieldId,
+          'aria-labelledby': labelId,
           class: 'value',
           '@change': (x, c) =>
             (previewElementData[fieldName] = (c.event.target as any).checked),
@@ -61,6 +66,8 @@ export function constructAttributesPanel(
         `;
         controlBindings = {
           value: attribute.default,
+          id: fieldId,
+          'aria-labelledby': labelId,
           class: 'value',
           '@change': (x, c) =>
             (previewElementData[fieldName] = (c.event.target as any).value),
@@ -73,7 +80,9 @@ export function constructAttributesPanel(
     });
 
     const view = html`
-      <b class="name">${attribute.name ?? attribute.fieldName}</b>
+      <label id="${labelId}" class="name" for="${fieldId}">${
+      attribute.name ?? attribute.fieldName
+    }</label>
       <p class="description">${attribute.description}</p>
     `.create();
 

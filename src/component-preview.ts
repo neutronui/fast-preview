@@ -11,6 +11,7 @@ import {
   Observable,
   HTMLView,
   repeat,
+  ref,
 } from '@microsoft/fast-element';
 import {
   baseLayerLuminance,
@@ -37,13 +38,12 @@ import type {
   CssPart,
   CssCustomProperty,
   Event,
+  Slot,
 } from 'custom-elements-manifest/schema';
 import { createElementView } from './utilities/create-element-view';
 import { uniqueId } from '@microsoft/fast-web-utilities/dist/strings';
-import {
-  constructAttributePanel,
-  constructAttributesPanel,
-} from './panels/attributes';
+import { constructAttributesPanel } from './panels/attributes';
+import { constructSlotsPanel } from './panels/slots';
 
 export type CustomAttribute = Attribute & {
   options?: Array<any>;
@@ -73,6 +73,9 @@ export class ComponentPreview extends FASTElement {
   @attr({ attribute: 'source-panel', mode: 'boolean' })
   public enableSourcePanel: boolean = false;
 
+  @attr({ attribute: 'slots-panel', mode: 'boolean' })
+  public enableSlotsPanel: boolean = false;
+
   /**
    * Template Refs
    */
@@ -90,6 +93,9 @@ export class ComponentPreview extends FASTElement {
 
   @observable
   public sourcePanel!: HTMLElement;
+
+  @observable
+  public slotsPanel!: HTMLElement;
 
   @observable
   public previewPanel!: HTMLElement;
@@ -164,10 +170,14 @@ export class ComponentPreview extends FASTElement {
     DOM.queueUpdate(() => {
       view.appendTo(this.previewPanel);
       constructAttributesPanel(
-        this.attributesPanel as DataGrid,
+        this.attributesPanel,
         this.elementData.attributes,
-        this.previewData,
-        this.previewBindings
+        this.previewData
+      );
+      constructSlotsPanel(
+        this.slotsPanel,
+        this.elementData.slots,
+        this.previewData
       );
     });
   }

@@ -58,6 +58,7 @@ export const componentPreviewStyles = css`
 		
 	}
 
+	.slots-panel,
 	.attributes-panel {
 		z-index: 1;
 		display: grid;
@@ -66,16 +67,19 @@ export const componentPreviewStyles = css`
 		padding-inline-start: 3rem;
 	}
 
+	.slots-panel > .name,
 	.attributes-panel > .name {
 		grid-column: 1;
 	}
 
+	.slots-panel > .description,
 	.attributes-panel > .description {
 		grid-column: 2;
 		white-space: normal;
 		margin: 0;
 	}
 
+	.slots-panel > .value,
 	.attributes-panel > .value {
 		grid-column: 3;
 	}

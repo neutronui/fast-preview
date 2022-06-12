@@ -57,13 +57,14 @@ export const componentPreviewTemplate: ViewTemplate<ComponentPreview> = html`
         x.enableEventsPanel ||
         x.enablePartsPanel ||
         x.enablePropsPanel ||
+        x.enableSlotsPanel ||
         x.enableSourcePanel,
       html<ComponentPreview>`
 				<div
 					class="props-panel"
 					part="props-panel"
 				>
-					<fluent-tabs orientation="vertical">
+					<fluent-tabs orientation="vertical" activeid="attributes">
 						<fluent-tab
 							id="attributes"
 							?hidden="${(x) => !x.enableAttributesPanel}"
@@ -75,6 +76,20 @@ export const componentPreviewTemplate: ViewTemplate<ComponentPreview> = html`
 								class="attributes-panel"
 								part="attributes-panel"
 								${ref('attributesPanel')}
+							></div>
+						</fluent-tab-panel>
+
+						<fluent-tab
+							id="slots"
+							?hidden="${(x) => !x.enableSlotsPanel}"
+						>Slots</fluent-tab>
+						<fluent-tab-panel
+							?hidden="${(x) => !x.enableSlotsPanel}"
+						>
+							<div
+								class="slots-panel"
+								part="slots-panel"
+								${ref('slotsPanel')}
 							></div>
 						</fluent-tab-panel>
 					</fluent-tabs>
