@@ -154,10 +154,12 @@ export class ComponentPreview extends FASTElement {
       this.previewData.type = attribute.type?.text!;
 
       if (attribute.type?.text === 'boolean') {
-        this.previewBindings[`?${attribute.name}`] = (x) => x[fieldName];
+        this.previewBindings[`?${attribute.name ?? fieldName}`] = (x) =>
+          x[fieldName];
         this.previewData[`_${fieldName}`] = attribute.default ?? false;
       } else {
-        this.previewBindings[`${attribute.name}`] = (x) => x[fieldName];
+        this.previewBindings[`${attribute.name ?? fieldName}`] = (x) =>
+          x[fieldName];
         this.previewData[`_${fieldName}`] = attribute.default!;
       }
 

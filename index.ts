@@ -65,7 +65,7 @@ const customData: CustomElement & {
 };
 
 const componentPreviewData = {
-  // elementData: getElementData(manifest, 'Button'),
+  elementData: getElementData(manifest, 'Button'),
   customData: customData,
   enableAttributesPanel: true,
 };
@@ -73,7 +73,7 @@ const componentPreviewData = {
 const componentPreview = createElementView('component-preview', {
   bindings: {
     id: 'preview',
-    ':customData': (x) => x.customData,
+    ':elementData': (x) => x.elementData,
     '?attributes-panel': (x) => x.enableAttributesPanel,
   },
 }).create();

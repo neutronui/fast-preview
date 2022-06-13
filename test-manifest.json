@@ -341,7 +341,7 @@
               "type": {
                 "text": "boolean"
               },
-              "description": "Disabled state.",
+              "description": "The button's disabled state",
               "fieldName": "disabled"
             },
             {
@@ -349,7 +349,7 @@
                 "text": "accent | stealth | outline | lightweight | neutral"
               },
               "default": "neutral",
-              "description": "The appearance.",
+              "description": "The appearance the button should have.",
               "fieldName": "appearance"
             }
           ],
