@@ -68,7 +68,6 @@ const componentPreviewData = {
   // elementData: getElementData(manifest, 'Button'),
   customData: customData,
   enableAttributesPanel: true,
-  enableSlotsPanel: true,
 };
 
 const componentPreview = createElementView('component-preview', {
