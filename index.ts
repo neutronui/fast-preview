@@ -10,6 +10,7 @@ import {
   html,
   SyntheticViewTemplate,
 } from '@microsoft/fast-element';
+import { parseColorHexRGB } from '@microsoft/fast-colors';
 import { ComponentPreview } from './src/component-preview';
 import { createElementView } from './src/utilities/create-element-view';
 
@@ -23,7 +24,7 @@ manifest.modules = manifest.modules.filter((module) => {
 
 provideFluentDesignSystem().register(allComponents);
 
-accentBaseColor.withDefault(SwatchRGB.create(0.75, 0.25, 0.25));
+accentBaseColor.withDefault(SwatchRGB.from(parseColorHexRGB('#0B556A')!));
 
 ComponentPreview;
 
