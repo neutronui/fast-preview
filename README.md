@@ -11,16 +11,15 @@ Uses the [custom elements manifest](https://github.com/webcomponents/custom-elem
 ></fast-preview>
 ```
 
-````ts
+```ts
 import manifest from '...manifest.json';
 import { FASTPreview } from '@tac-elements/fast-preview';
 const preview = document.getElementById('preview-element')!;
 
 preview.elementData = getCustomElement(manifest, 'Button');
-```;
+```
 
 [<img src="https://raw.githubusercontent.com/kingoftac/fast-preview/master/fast-preview-example.png" alt="Screenshot of api-viewer docs" width="800">](https://github.com/kingoftac)
-````
 
 ## Features
 
@@ -31,6 +30,7 @@ preview.elementData = getCustomElement(manifest, 'Button');
 ## Known Issues
 
 > This is an alpha with a lot of rough edges, so several issues are to be expected.
+
 - Attribute TextFields that get cleared out throw an exception.
 
 ## In Progress Features
