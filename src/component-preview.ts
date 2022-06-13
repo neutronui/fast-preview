@@ -43,7 +43,6 @@ import type {
 import { createElementView } from './utilities/create-element-view';
 import { uniqueId } from '@microsoft/fast-web-utilities/dist/strings';
 import { constructAttributesPanel } from './panels/attributes';
-import { constructSlotsPanel } from './panels/slots';
 
 export type CustomAttribute = Attribute & {
   options?: Array<any>;
@@ -172,11 +171,6 @@ export class ComponentPreview extends FASTElement {
       constructAttributesPanel(
         this.attributesPanel,
         this.elementData.attributes,
-        this.previewData
-      );
-      constructSlotsPanel(
-        this.slotsPanel,
-        this.elementData.slots,
         this.previewData
       );
     });
