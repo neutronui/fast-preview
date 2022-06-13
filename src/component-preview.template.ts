@@ -13,7 +13,7 @@ import type { ComponentPreview } from './component-preview';
 export const componentPreviewTemplate: ViewTemplate<ComponentPreview> = html`
 	<template>
 		<fluent-toolbar class="toolbar">
-			<h3 slot="start">${(x) => (x.elementData ? `<${x.elementData.name}>` : '')}</h3>
+			<h3 slot="start">&lt;${(x) => x.displayName}&gt;</h3>
 			<fluent-switch
 				slot="end"
 				aria-label="Toggle ${(x) => x.title ?? ''} preview luminance"

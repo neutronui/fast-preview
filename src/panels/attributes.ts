@@ -81,9 +81,9 @@ export function constructAttributesPanel(
 
     const view = html`
       <label id="${labelId}" class="name" for="${fieldId}">${
-      attribute.name ?? attribute.fieldName
+      attribute.name ?? attribute.fieldName ?? ''
     }</label>
-      <p class="description">${attribute.description}</p>
+      <p class="description">${attribute.description ?? ''}</p>
     `.create();
 
     view.appendTo(target);

@@ -1,5 +1,5 @@
 {
-  "name": "@tac-elements/preview",
+  "name": "@tac-elements/fast-preview",
   "packageManager": "yarn@3.2.1",
   "workspaces": ["dev", "."],
   "type": "module",

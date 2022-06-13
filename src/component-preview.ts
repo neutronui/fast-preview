@@ -109,11 +109,15 @@ export class ComponentPreview extends FASTElement {
    * Public API
    */
   @observable
+  public displayName: string;
+
+  @observable
   public elementData!: CustomElement;
   public elementDataChanged(): void {
     console.log(this.elementData);
     this.reset();
 
+    this.displayName = this.elementData.tagName ?? this.elementData.name;
     this.constructPreview(this.elementData);
   }
 
@@ -123,6 +127,7 @@ export class ComponentPreview extends FASTElement {
     console.log(this.customData);
     this.reset();
 
+    this.displayName = this.customData.tagName ?? this.customData.name;
     this.constructPreview(this.customData);
   }
 
@@ -142,17 +147,17 @@ export class ComponentPreview extends FASTElement {
   private previewTemplateChanged(): void {}
 
   private constructPreview(data: CustomElement): void {
-    const tagName = data.name!;
+    const tagName = data.tagName ?? data.name!;
 
     data.attributes?.forEach((attribute: Attribute) => {
       const fieldName: string = attribute.fieldName!;
       this.previewData.type = attribute.type?.text!;
 
       if (attribute.type?.text === 'boolean') {
-        this.previewBindings[`?${fieldName}`] = (x) => x[fieldName];
+        this.previewBindings[`?${attribute.name}`] = (x) => x[fieldName];
         this.previewData[`_${fieldName}`] = attribute.default ?? false;
       } else {
-        this.previewBindings[`:${fieldName}`] = (x) => x[fieldName];
+        this.previewBindings[`${attribute.name}`] = (x) => x[fieldName];
         this.previewData[`_${fieldName}`] = attribute.default!;
       }
 
@@ -169,7 +174,7 @@ export class ComponentPreview extends FASTElement {
     });
 
     this.previewTemplate = createElementView(tagName, {
-      content: data.example ?? tagName,
+      content: data.exampleContent ?? tagName,
       bindings: this.previewBindings,
     });
     const view = this.previewTemplate.create();

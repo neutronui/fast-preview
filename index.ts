@@ -2,6 +2,8 @@ import {
   provideFluentDesignSystem,
   allComponents,
   Button,
+  accentBaseColor,
+  SwatchRGB,
 } from '@fluentui/web-components';
 import {
   defaultExecutionContext,
@@ -21,30 +23,45 @@ manifest.modules = manifest.modules.filter((module) => {
 
 provideFluentDesignSystem().register(allComponents);
 
+accentBaseColor.withDefault(SwatchRGB.create(0.75, 0.25, 0.25));
+
 ComponentPreview;
 
 const app = document.getElementById('app')!;
 
-const customData: CustomElement & { example?: string | SyntheticViewTemplate } =
-  {
-    tagName: 'fluent-button',
-    name: 'Button',
-    customElement: true,
-    attributes: [
-      {
-        name: 'appearance',
-        type: {
-          text: 'accent | stealth | outline | neutral | lightweight',
-        },
-        default: 'accent',
+const customData: CustomElement & {
+  exampleContent?: string | SyntheticViewTemplate;
+} = {
+  tagName: 'fluent-accordion',
+  name: 'Accordion',
+  customElement: true,
+  attributes: [
+    {
+      name: 'expand-mode',
+      fieldName: 'expandMode',
+      type: {
+        text: 'single | multi',
       },
-    ],
-    example: html`
-    <fluent-menu>
-      <fluent-menu-item>item 1</fluent-menu-item>
-    </fluent-menu>
+      default: 'multi',
+    },
+  ],
+  exampleContent: html`
+    <fluent-accordion-item>
+      <fluent-progress-ring slot="start"></fluent-progress-ring>
+      <div slot="heading">Item 1</div>
+      Item 1 Content
+    </fluent-accordion-item>
+    <fluent-accordion-item>
+      <fluent-button appearance="accent" slot="start">button</fluent-button>
+      <div slot="heading">Item 1</div>
+      Item 2 Content
+    </fluent-accordion-item>
+    <fluent-accordion-item>
+      <div slot="heading">Item 1</div>
+      Item 3 Content
+    </fluent-accordion-item>
   `,
-  };
+};
 
 const componentPreviewData = {
   // elementData: getElementData(manifest, 'Button'),
@@ -56,7 +73,7 @@ const componentPreviewData = {
 const componentPreview = createElementView('component-preview', {
   bindings: {
     id: 'preview',
-    ':elementData': (x) => x.elementData,
+    ':customData': (x) => x.customData,
     '?attributes-panel': (x) => x.enableAttributesPanel,
   },
 }).create();
