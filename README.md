@@ -19,7 +19,7 @@ const preview = document.getElementById('preview-element')!;
 preview.elementData = getCustomElement(manifest, 'Button');
 ```
 
-[<img src="https://raw.githubusercontent.com/kingoftac/fast-preview/main/fast-preview-example.png" alt="Screenshot of fast-preview" width="800">](https://github.com/kingoftac)
+[<img src="https://raw.githubusercontent.com/kingoftac/fast-preview//main/fast-preview-example.png" alt="Screenshot of fast-preview" width="800">](https://github.com/kingoftac)
 
 ## Features
 
