@@ -144,7 +144,7 @@ export class ComponentPreview extends FASTElement {
   private constructPreview(data: CustomElement): void {
     const tagName = data.name!;
 
-    this.elementData.attributes?.forEach((attribute: Attribute) => {
+    data.attributes?.forEach((attribute: Attribute) => {
       const fieldName: string = attribute.fieldName!;
       this.previewData.type = attribute.type?.text!;
 
@@ -169,7 +169,7 @@ export class ComponentPreview extends FASTElement {
     });
 
     this.previewTemplate = createElementView(tagName, {
-      content: data?.example ?? tagName,
+      content: data.example ?? tagName,
       bindings: this.previewBindings,
     });
     const view = this.previewTemplate.create();
@@ -179,7 +179,7 @@ export class ComponentPreview extends FASTElement {
       view.appendTo(this.previewPanel);
       constructAttributesPanel(
         this.attributesPanel,
-        this.elementData.attributes,
+        data.attributes,
         this.previewData
       );
     });
