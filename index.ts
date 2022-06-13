@@ -70,10 +70,10 @@ const componentPreviewData = {
   enableAttributesPanel: true,
 };
 
-const componentPreview = createElementView('component-preview', {
+const componentPreview = createElementView('fast-preview', {
   bindings: {
     id: 'preview',
-    ':elementData': (x) => x.elementData,
+    ':customData': (x) => x.customData,
     '?attributes-panel': (x) => x.enableAttributesPanel,
   },
 }).create();

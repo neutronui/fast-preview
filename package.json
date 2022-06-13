@@ -1,10 +1,8 @@
 {
   "name": "@tac-elements/fast-preview",
+  "version": "1.0.0alpha",
   "packageManager": "yarn@3.2.1",
-  "workspaces": [
-    "dev",
-    "."
-  ],
+  "workspaces": ["dev", "."],
   "type": "module",
   "main": "dist/preview-element.js",
   "types": "dist/dts/index.d.ts",

@@ -1,25 +1,18 @@
-import {
-  defaultExecutionContext,
-  html,
-  Observable,
-  repeat,
-  TemplateValue,
-} from '@microsoft/fast-element';
+import { html, repeat, TemplateValue } from '@microsoft/fast-element';
 import { createElementView } from '../utilities/create-element-view';
 
 import type { Attribute } from 'custom-elements-manifest/schema';
 import { uniqueId } from '@microsoft/fast-web-utilities';
-import {
-  ColumnDefinition,
-  DataGridCell,
-  DataGrid,
-} from '@microsoft/fast-foundation';
 
 export function constructAttributesPanel(
   target: HTMLElement,
   attributes: Array<Attribute>,
   previewElementData: Record<string, string | TemplateValue<any, any>>
 ): void {
+  if (!attributes.length) {
+    return;
+  }
+
   attributes?.forEach((attribute: Attribute) => {
     const fieldName: string = attribute.fieldName!;
     const fieldId: string = uniqueId(`${fieldName}-`);

@@ -49,7 +49,7 @@ export type CustomAttribute = Attribute & {
 };
 
 @customElement({
-  name: 'component-preview',
+  name: 'fast-preview',
   template: componentPreviewTemplate,
   styles: componentPreviewStyles,
 })
@@ -148,32 +148,39 @@ export class ComponentPreview extends FASTElement {
 
   private constructPreview(data: CustomElement): void {
     const tagName = data.tagName ?? data.name!;
+    this.previewBindings.id = uniqueId(`${tagName}-`);
 
-    data.attributes?.forEach((attribute: Attribute) => {
-      const fieldName: string = attribute.fieldName!;
-      this.previewData.type = attribute.type?.text!;
+    if (data.attributes) {
+      data.attributes?.forEach((attribute: Attribute) => {
+        const fieldName: string = attribute.fieldName!;
+        this.previewData.type = attribute.type?.text!;
 
-      if (attribute.type?.text === 'boolean') {
-        this.previewBindings[`?${attribute.name ?? fieldName}`] = (x) =>
-          x[fieldName];
-        this.previewData[`_${fieldName}`] = attribute.default ?? false;
-      } else {
-        this.previewBindings[`${attribute.name ?? fieldName}`] = (x) =>
-          x[fieldName];
-        this.previewData[`_${fieldName}`] = attribute.default!;
-      }
+        if (attribute.type?.text === 'boolean') {
+          this.previewBindings[`?${attribute.name ?? fieldName}`] = (x) =>
+            x[fieldName];
+          this.previewData[`_${fieldName}`] = attribute.default ?? false;
+        } else {
+          this.previewBindings[`${attribute.name ?? fieldName}`] = (x) =>
+            x[fieldName];
+          this.previewData[`_${fieldName}`] = attribute.default!;
+        }
 
-      Object.defineProperty(this.previewData, fieldName, {
-        get() {
-          Observable.track(this, fieldName);
-          return this[`_${fieldName}`];
-        },
-        set(value: any) {
-          this[`_${fieldName}`] = value;
-          Observable.notify(this, fieldName);
-        },
+        Object.defineProperty(this.previewData, fieldName, {
+          get() {
+            Observable.track(this, fieldName);
+            return this[`_${fieldName}`];
+          },
+          set(value: any) {
+            this[`_${fieldName}`] = value;
+            Observable.notify(this, fieldName);
+          },
+        });
       });
-    });
+    } else {
+      DOM.queueUpdate(() => {
+        this.setAttribute('attributes-panel', false);
+      });
+    }
 
     this.previewTemplate = createElementView(tagName, {
       content: data.exampleContent ?? tagName,
@@ -186,8 +193,8 @@ export class ComponentPreview extends FASTElement {
       view.appendTo(this.previewPanel);
       constructAttributesPanel(
         this.attributesPanel,
-        data.attributes,
-        this.previewData
+        data.attributes ?? {},
+        this.previewData ?? {}
       );
     });
   }

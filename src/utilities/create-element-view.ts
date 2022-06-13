@@ -24,7 +24,7 @@ export function createElementView<TSource = any, TParent = any>(
   const content = data?.content;
   const bindings = data?.bindings;
 
-  if (bindings) {
+  if (Object.keys(bindings).length > 0) {
     const firstBinding = Object.keys(bindings)[0];
 
     for (const key in bindings) {
