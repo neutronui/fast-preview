@@ -64,7 +64,7 @@ const customData: CustomElement & {
 };
 
 const componentPreviewData = {
-  _elementData: getElementData(manifest, 'Button'),
+  _elementData: undefined,
   get elementData() {
     Observable.track(this, 'elementData');
     return this._elementData;
@@ -88,6 +88,7 @@ const componentPreviewData = {
 const componentPreview = createElementView('fluent-preview', {
   bindings: {
     id: 'preview',
+    ':elementData': (x) => x.elementData,
     ':customData': (x) => x.customData,
     '?attributes-panel': (x) => x.enableAttributesPanel,
   },
@@ -98,10 +99,10 @@ componentPreview.appendTo(app);
 
 const menu = createElementView('fluent-menu', {
   content: html`
-      <fluent-menu-item id="Button">Button</fluent-menu-item>
-      <fluent-menu-item id="Slider">Slider</fluent-menu-item>
-      <fluent-menu-item id="Accordion">Accordion</fluent-menu-item>
-    `,
+    <fluent-menu-item id="Button">Button</fluent-menu-item>
+    <fluent-menu-item id="Slider">Slider</fluent-menu-item>
+    <fluent-menu-item id="Accordion">Accordion</fluent-menu-item>
+  `,
   bindings: {
     id: 'menu',
     '@change': (x, c) => {

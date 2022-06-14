@@ -110,36 +110,41 @@ export class ComponentPreview extends FoundationElement {
 
   @observable
   public elementData!: CustomElement;
-  public elementDataChanged(oldValue: CustomElement, newValue: CustomElement): void {
-    console.log(this.elementData);
-    
-    if (oldValue) {
-      this.reset();
+  public elementDataChanged(
+    oldValue: CustomElement,
+    newValue: CustomElement
+  ): void {
+    if (!newValue) {
+      return;
     }
 
     this.displayName = this.elementData.tagName ?? this.elementData.name;
     this.constructPreview(this.elementData);
+    this.customData = undefined;
   }
 
   @observable
   public customData!: CustomElement;
-  public customDataChanged(oldValue: CustomElement, newValue: CustomElement): void {
-    console.log(this.customData);
-    
-    if (oldValue) {
-      this.reset();
+  public customDataChanged(
+    oldValue: CustomElement,
+    newValue: CustomElement
+  ): void {
+    if (!newValue) {
+      return;
     }
 
     this.displayName = this.customData.tagName ?? this.customData.name;
     this.constructPreview(this.customData);
+    this.elementData = undefined;
   }
 
   /**
    * Private API
    */
   private reset(): void {
-    this.previewTemplate.remove();
-    this.attributesPanel.innerHTML = '';
+    if (this.attributesPanel) {
+      this.attributesPanel.innerHTML = '';
+    }
     this.previewData = {};
     this.previewBindings = {};
   }
@@ -152,9 +157,27 @@ export class ComponentPreview extends FoundationElement {
 
   @observable
   private previewTemplate!: HTMLView;
-  private previewTemplateChanged(): void {}
+  private previewTemplateChanged(oldValue: HTMLView, newValue: HTMLView): void {
+    let view;
 
-  private constructPreview(data: CustomElement & { exampleContent?: string | SyntheticViewTemplate }): void {
+    if (newValue) {
+      view = newValue;
+      view.bind(this.previewData, defaultExecutionContext);
+    }
+
+    DOM.queueUpdate(() => {
+      view.appendTo(this.previewPanel);
+
+      if (oldValue) {
+        oldValue.dispose();
+      }
+    });
+  }
+
+  private constructPreview(
+    data: CustomElement & { exampleContent?: string | SyntheticViewTemplate }
+  ): void {
+    this.reset();
     const tagName = data.tagName ?? data.name!;
     this.previewBindings.id = uniqueId(`${tagName}-`);
 
@@ -194,11 +217,8 @@ export class ComponentPreview extends FoundationElement {
       content: data.exampleContent ?? tagName,
       bindings: this.previewBindings,
     }).create();
-    const view = this.previewTemplate;
-    view.bind(this.previewData, defaultExecutionContext);
 
     DOM.queueUpdate(() => {
-      view.appendTo(this.previewPanel);
       constructAttributesPanel(
         this.attributesPanel,
         data.attributes!,
