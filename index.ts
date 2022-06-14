@@ -4,6 +4,8 @@ import {
   Button,
   accentBaseColor,
   SwatchRGB,
+  baseLayerLuminance,
+  StandardLuminance,
 } from '@fluentui/web-components';
 import {
   defaultExecutionContext,
@@ -18,6 +20,7 @@ import { createElementView } from './src/utilities/create-element-view';
 import manifest from './test-manifest.json';
 import { getElementData } from './utils';
 import { CustomElement } from 'custom-elements-manifest/schema';
+import { DesignSystem, Switch } from '@microsoft/fast-foundation';
 
 manifest.modules = manifest.modules.filter((module) => {
   return module.declarations[0]?.customElement;
@@ -27,7 +30,29 @@ provideFluentDesignSystem().register(allComponents, fastPreview());
 
 accentBaseColor.withDefault(SwatchRGB.from(parseColorHexRGB('#0B556A')!));
 
+const themeSwitch = createElementView(DesignSystem.tagFor(Switch), {
+  content: html`
+    <span slot="checked-message">Dark Mode</span>
+    <span slot="unchecked-message">Light Mode</span>
+  `,
+  bindings: {
+    '@change': (x, c) =>
+      (c.event.target as Switch).checked
+        ? baseLayerLuminance.setValueFor(
+            document.documentElement,
+            StandardLuminance.DarkMode
+          )
+        : baseLayerLuminance.setValueFor(
+            document.documentElement,
+            StandardLuminance.LightMode
+          ),
+  },
+}).create();
+
+themeSwitch.bind({}, defaultExecutionContext);
+
 const app = document.getElementById('app')!;
+themeSwitch.appendTo(app);
 
 const customData: CustomElement & {
   exampleContent?: string | SyntheticViewTemplate;

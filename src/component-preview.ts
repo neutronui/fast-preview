@@ -45,6 +45,9 @@ import type {
 import { createElementView } from './utilities/create-element-view';
 import { uniqueId } from '@microsoft/fast-web-utilities/dist/strings';
 import { constructAttributesPanel } from './panels/attributes';
+import { PreviewPanel } from './panels/preview';
+
+PreviewPanel;
 
 export type CustomAttribute = Attribute & {
   options?: Array<any>;
@@ -260,11 +263,11 @@ export class ComponentPreview extends FoundationElement {
   public connectedCallback(): void {
     super.connectedCallback();
 
-    DOM.queueUpdate(() => {
-      baseLayerLuminance.setValueFor(
-        this.previewPanel,
-        StandardLuminance.LightMode
-      );
-    });
+    // DOM.queueUpdate(() => {
+    //   baseLayerLuminance.setValueFor(
+    //     this.previewPanel,
+    //     StandardLuminance.LightMode
+    //   );
+    // });
   }
 }

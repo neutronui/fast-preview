@@ -9,20 +9,29 @@ import {
 
 import type { ViewTemplate } from '@microsoft/fast-element';
 import type { ComponentPreview } from './component-preview';
-import { Card, FoundationElementTemplate, Switch, Tab, TabPanel, Tabs, Toolbar } from '@microsoft/fast-foundation';
+import {
+  Card,
+  FoundationElementTemplate,
+  Switch,
+  Tab,
+  TabPanel,
+  Tabs,
+  Toolbar,
+} from '@microsoft/fast-foundation';
+import { DesignSystemProvider } from '@fluentui/web-components';
 
 export const componentPreviewTemplate: FoundationElementTemplate<
-	ViewTemplate<ComponentPreview>,
-	any
+  ViewTemplate<ComponentPreview>,
+  any
 > = (context, definition) => {
-	const toolbarTag = context.tagFor(Toolbar);
-	const switchTag = context.tagFor(Switch);
-	const cardTag = context.tagFor(Card);
-	const tabsTag = context.tagFor(Tabs);
-	const tabTag = context.tagFor(Tab);
-	const tabPanelTag = context.tagFor(TabPanel);
+  const toolbarTag = context.tagFor(Toolbar);
+  const switchTag = context.tagFor(Switch);
+  const DSPTag = context.tagFor(DesignSystemProvider);
+  const tabsTag = context.tagFor(Tabs);
+  const tabTag = context.tagFor(Tab);
+  const tabPanelTag = context.tagFor(TabPanel);
 
-	return html`
+  return html`
 		<template>
 			<${toolbarTag} class="toolbar">
 				<h3 slot="start">&lt;${(x) => x.displayName}&gt;</h3>
@@ -57,21 +66,21 @@ export const componentPreviewTemplate: FoundationElementTemplate<
 			</${toolbarTag}>
 
 				
-			<${cardTag}
+			<${DSPTag}
 				class="preview-panel"
 				part="preview-panel"
 				${ref('previewPanel')}
-			></${cardTag}>
+			></${DSPTag}>
 
 			${when(
-				(x) =>
-					x.enableAttributesPanel ||
-					x.enableEventsPanel ||
-					x.enablePartsPanel ||
-					x.enablePropsPanel ||
-					x.enableSlotsPanel ||
-					x.enableSourcePanel,
-				html<ComponentPreview>`
+        (x) =>
+          x.enableAttributesPanel ||
+          x.enableEventsPanel ||
+          x.enablePartsPanel ||
+          x.enablePropsPanel ||
+          x.enableSlotsPanel ||
+          x.enableSourcePanel,
+        html<ComponentPreview>`
 					<div
 						class="props-panel"
 						part="props-panel"
@@ -93,7 +102,7 @@ export const componentPreviewTemplate: FoundationElementTemplate<
 						</${tabsTag}>
 					</div>
 				`
-			)}
+      )}
 		</template>
 	`;
-}
+};
