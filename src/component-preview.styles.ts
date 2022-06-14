@@ -11,7 +11,7 @@ import {
   strokeWidth,
 } from '@fluentui/web-components';
 
-export const componentPreviewStyles = css`
+export const componentPreviewStyles = (context, definition) => css`
 	${display('flex')} :host {
 		font-family: ${bodyFont};
 		flex-direction: column;

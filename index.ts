@@ -11,7 +11,7 @@ import {
   SyntheticViewTemplate,
 } from '@microsoft/fast-element';
 import { parseColorHexRGB } from '@microsoft/fast-colors';
-import { ComponentPreview } from './src/component-preview';
+import { ComponentPreview, fastPreview } from './src/index';
 import { createElementView } from './src/utilities/create-element-view';
 
 import manifest from './test-manifest.json';
@@ -22,11 +22,9 @@ manifest.modules = manifest.modules.filter((module) => {
   return module.declarations[0]?.customElement;
 });
 
-provideFluentDesignSystem().register(allComponents);
+provideFluentDesignSystem().register(allComponents, fastPreview());
 
 accentBaseColor.withDefault(SwatchRGB.from(parseColorHexRGB('#0B556A')!));
-
-ComponentPreview;
 
 const app = document.getElementById('app')!;
 
@@ -70,7 +68,7 @@ const componentPreviewData = {
   enableAttributesPanel: true,
 };
 
-const componentPreview = createElementView('fast-preview', {
+const componentPreview = createElementView('fluent-preview', {
   bindings: {
     id: 'preview',
     ':customData': (x) => x.customData,

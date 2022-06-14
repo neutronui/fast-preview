@@ -12,6 +12,7 @@ import {
   HTMLView,
   repeat,
   ref,
+  SyntheticViewTemplate,
 } from '@microsoft/fast-element';
 import {
   baseLayerLuminance,
@@ -19,18 +20,19 @@ import {
   direction,
   StandardLuminance,
 } from '@fluentui/web-components';
-import { Direction } from '@microsoft/fast-web-utilities';
+import { Direction, isHTMLElement } from '@microsoft/fast-web-utilities';
 import { componentPreviewStyles } from './component-preview.styles';
 import { componentPreviewTemplate } from './component-preview.template';
 
 /**
  * Type Imports
  */
-import type {
+import {
   Switch,
   DataGrid,
   DataGridCellTypes,
   ColumnDefinition,
+  FoundationElement,
 } from '@microsoft/fast-foundation';
 import type {
   CustomElement,
@@ -48,12 +50,7 @@ export type CustomAttribute = Attribute & {
   options?: Array<any>;
 };
 
-@customElement({
-  name: 'fast-preview',
-  template: componentPreviewTemplate,
-  styles: componentPreviewStyles,
-})
-export class ComponentPreview extends FASTElement {
+export class ComponentPreview extends FoundationElement {
   /**
    * Attributes
    */
@@ -109,13 +106,16 @@ export class ComponentPreview extends FASTElement {
    * Public API
    */
   @observable
-  public displayName: string;
+  public displayName!: string;
 
   @observable
   public elementData!: CustomElement;
-  public elementDataChanged(): void {
+  public elementDataChanged(oldValue: CustomElement, newValue: CustomElement): void {
     console.log(this.elementData);
-    this.reset();
+    
+    if (oldValue) {
+      this.reset();
+    }
 
     this.displayName = this.elementData.tagName ?? this.elementData.name;
     this.constructPreview(this.elementData);
@@ -123,9 +123,12 @@ export class ComponentPreview extends FASTElement {
 
   @observable
   public customData!: CustomElement;
-  public customDataChanged(): void {
+  public customDataChanged(oldValue: CustomElement, newValue: CustomElement): void {
     console.log(this.customData);
-    this.reset();
+    
+    if (oldValue) {
+      this.reset();
+    }
 
     this.displayName = this.customData.tagName ?? this.customData.name;
     this.constructPreview(this.customData);
@@ -134,7 +137,12 @@ export class ComponentPreview extends FASTElement {
   /**
    * Private API
    */
-  private reset(): void {}
+  private reset(): void {
+    this.previewTemplate.remove();
+    this.attributesPanel.innerHTML = '';
+    this.previewData = {};
+    this.previewBindings = {};
+  }
 
   @observable
   private previewData: Record<string, string | TemplateValue<any, any>> = {};
@@ -143,10 +151,10 @@ export class ComponentPreview extends FASTElement {
     {};
 
   @observable
-  private previewTemplate!: ViewTemplate;
+  private previewTemplate!: HTMLView;
   private previewTemplateChanged(): void {}
 
-  private constructPreview(data: CustomElement): void {
+  private constructPreview(data: CustomElement & { exampleContent?: string | SyntheticViewTemplate }): void {
     const tagName = data.tagName ?? data.name!;
     this.previewBindings.id = uniqueId(`${tagName}-`);
 
@@ -178,23 +186,23 @@ export class ComponentPreview extends FASTElement {
       });
     } else {
       DOM.queueUpdate(() => {
-        this.setAttribute('attributes-panel', false);
+        this.setAttribute('attributes-panel', 'false');
       });
     }
 
     this.previewTemplate = createElementView(tagName, {
       content: data.exampleContent ?? tagName,
       bindings: this.previewBindings,
-    });
-    const view = this.previewTemplate.create();
+    }).create();
+    const view = this.previewTemplate;
     view.bind(this.previewData, defaultExecutionContext);
 
     DOM.queueUpdate(() => {
       view.appendTo(this.previewPanel);
       constructAttributesPanel(
         this.attributesPanel,
-        data.attributes ?? {},
-        this.previewData ?? {}
+        data.attributes!,
+        this.previewData!
       );
     });
   }

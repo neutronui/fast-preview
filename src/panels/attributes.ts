@@ -1,8 +1,9 @@
-import { html, repeat, TemplateValue } from '@microsoft/fast-element';
+import { html, repeat, SyntheticViewTemplate, TemplateValue } from '@microsoft/fast-element';
 import { createElementView } from '../utilities/create-element-view';
 
 import type { Attribute } from 'custom-elements-manifest/schema';
 import { uniqueId } from '@microsoft/fast-web-utilities';
+import { Checkbox, DesignSystem, ListboxOption, Select, TextField } from '@microsoft/fast-foundation';
 
 export function constructAttributesPanel(
   target: HTMLElement,
@@ -17,9 +18,9 @@ export function constructAttributesPanel(
     const fieldName: string = attribute.fieldName!;
     const fieldId: string = uniqueId(`${fieldName}-`);
     const labelId: string = uniqueId(`${fieldName}-label-`);
-
-    let controlTag = 'fluent-text-field';
-    let controlContent = null;
+    
+    let controlTag = DesignSystem.tagFor(TextField);
+    let controlContent: string | SyntheticViewTemplate | null = null;
     let controlBindings: Record<string, string | TemplateValue<any, any>> = {
       id: fieldId,
       'aria-labelledby': labelId,
@@ -30,16 +31,16 @@ export function constructAttributesPanel(
     };
 
     let type = 'text';
-    const parsedType = attribute.type.text.split(/[\s][^\w+][\s]/g);
+    const parsedType = attribute.type?.text.split(/[\s][^\w+][\s]/g)!;
     if (parsedType.length > 1) {
       type = 'select';
     } else {
-      type = attribute.type.text;
+      type = attribute.type?.text!;
     }
 
     switch (type) {
       case 'boolean':
-        controlTag = 'fluent-checkbox';
+        controlTag = DesignSystem.tagFor(Checkbox);
         controlBindings = {
           id: fieldId,
           'aria-labelledby': labelId,
@@ -50,15 +51,15 @@ export function constructAttributesPanel(
         break;
 
       case 'select':
-        controlTag = 'fluent-select';
+        controlTag = DesignSystem.tagFor(Select);
         controlContent = html`
           ${repeat(
             (x) => parsedType,
-            html`<fluent-option value="${(x) => x}">${(x) => x}</fluent-option>`
+            html`<${DesignSystem.tagFor(ListboxOption)} value="${(x) => x}">${(x) => x}</${DesignSystem.tagFor(ListboxOption)}>`
           )}
         `;
         controlBindings = {
-          value: attribute.default,
+          value: attribute.default!,
           id: fieldId,
           'aria-labelledby': labelId,
           class: 'value',
@@ -68,7 +69,7 @@ export function constructAttributesPanel(
     }
 
     const control = createElementView(controlTag, {
-      content: controlContent,
+      content: controlContent!,
       bindings: controlBindings,
     });
 
