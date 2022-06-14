@@ -8,6 +8,7 @@ import {
 import {
   defaultExecutionContext,
   html,
+  Observable,
   SyntheticViewTemplate,
 } from '@microsoft/fast-element';
 import { parseColorHexRGB } from '@microsoft/fast-colors';
@@ -63,8 +64,24 @@ const customData: CustomElement & {
 };
 
 const componentPreviewData = {
-  elementData: getElementData(manifest, 'Button'),
-  customData: customData,
+  _elementData: getElementData(manifest, 'Button'),
+  get elementData() {
+    Observable.track(this, 'elementData');
+    return this._elementData;
+  },
+  set elementData(value) {
+    this._elementData = value;
+    Observable.notify(this, 'elementData');
+  },
+  _customData: customData,
+  get customData() {
+    Observable.track(this, 'customData');
+    return this._customData;
+  },
+  set customData(value) {
+    this._customData = value;
+    Observable.notify(this, 'customData');
+  },
   enableAttributesPanel: true,
 };
 
@@ -78,3 +95,27 @@ const componentPreview = createElementView('fluent-preview', {
 
 componentPreview.bind(componentPreviewData, defaultExecutionContext);
 componentPreview.appendTo(app);
+
+const menu = createElementView('fluent-menu', {
+  content: html`
+      <fluent-menu-item id="Button">Button</fluent-menu-item>
+      <fluent-menu-item id="Slider">Slider</fluent-menu-item>
+      <fluent-menu-item id="Accordion">Accordion</fluent-menu-item>
+    `,
+  bindings: {
+    id: 'menu',
+    '@change': (x, c) => {
+      if ((c.event.target as any).id === 'Accordion') {
+        componentPreviewData.customData = customData;
+      } else {
+        componentPreviewData.elementData = getElementData(
+          manifest,
+          (c.event.target as any).id
+        );
+      }
+    },
+  },
+}).create();
+
+menu.bind({}, defaultExecutionContext);
+menu.appendTo(app);

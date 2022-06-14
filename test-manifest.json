@@ -422,6 +422,127 @@
           }
         }
       ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/slider/slider.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A Button Custom HTML Element. Based largely on the {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button | <button> element }.",
+          "name": "Slider",
+          "cssParts": [
+            {
+              "description": "The button element",
+              "name": "control"
+            },
+            {
+              "description": "The element wrapping button content",
+              "name": "content"
+            }
+          ],
+          "slots": [],
+          "members": [],
+          "attributes": [
+            {
+              "type": {
+                "text": "boolean"
+              },
+              "description": "The button's disabled state",
+              "fieldName": "disabled"
+            },
+            {
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "description": "",
+              "fieldName": "step"
+            },
+            {
+              "type": {
+                "text": "number"
+              },
+              "description": "",
+              "fieldName": "min"
+            },
+            {
+              "type": {
+                "text": "number"
+              },
+              "description": "",
+              "fieldName": "max"
+            }
+          ],
+          "superclass": {
+            "name": "FormAssociatedSlider",
+            "module": "/src/slider/slider.form-associated.js"
+          },
+          "tagName": "fluent-slider",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "Includes ARIA states and properties relating to the ARIA button role",
+          "name": "DelegatesARIAButton",
+          "members": [
+            {
+              "kind": "field",
+              "name": "ariaExpanded",
+              "type": {
+                "text": "\"true\" | \"false\" | string | null"
+              },
+              "privacy": "public",
+              "description": "See {@link https://www.w3.org/WAI/PF/aria/roles#button} for more information"
+            },
+            {
+              "kind": "field",
+              "name": "ariaPressed",
+              "type": {
+                "text": "\"true\" | \"false\" | \"mixed\" | string | null"
+              },
+              "privacy": "public",
+              "description": "See {@link https://www.w3.org/WAI/PF/aria/roles#button} for more information"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "aria-expanded",
+              "type": {
+                "text": "\"true\" | \"false\" | string | null"
+              },
+              "description": "See https://www.w3.org/WAI/PF/aria/roles#button for more information",
+              "fieldName": "ariaExpanded"
+            },
+            {
+              "name": "aria-pressed",
+              "type": {
+                "text": "\"true\" | \"false\" | \"mixed\" | string | null"
+              },
+              "description": "See https://www.w3.org/WAI/PF/aria/roles#button for more information",
+              "fieldName": "ariaPressed"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "Slider",
+          "declaration": {
+            "name": "Slider",
+            "module": "src/slider/slider.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DelegatesARIASlider",
+          "declaration": {
+            "name": "DelegatesARIASlider",
+            "module": "src/slider/slider.ts"
+          }
+        }
+      ]
     }
   ]
 }
